@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>fwRelik.SSHSetup</Title>
+    <Version>0.1.0</Version>
+    <Company>fwRelik</Company>
+    <Description>Setting OpenSSH</Description>
+    <PackageProjectUrl>https://github.com/fwRelik/fwRelik.SSHSetup</PackageProjectUrl>
+    <PackageIcon>byfwRelik.jpg</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>https://github.com/fwRelik/fwRelik.SSHSetup</RepositoryType>
+    <PackageTags>fwRelik, ssh, sshsetup</PackageTags>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="fwRelik.Terminal" Version="0.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Assets\byfwRelik.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
