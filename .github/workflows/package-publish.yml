@@ -1,0 +1,44 @@
+﻿name: package-publish
+
+on:
+    push:
+        branches: ['main']
+
+env:
+    BUILD_CONFIG: 'Release'
+    SOLUTION: 'fwRelik.SSHSetup.sln'
+
+jobs:
+    build_and_publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Get Build Version
+              run: |
+                $content = Get-Content *.csproj
+                $version = $content -match "<Version>(.*)</Version>" -replace "</?Version>|\s"
+                Write-Host $Env:GITHUB_REF
+                echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+              shell: pwsh
+
+            - name: Setup NuGet
+              uses: NuGet/setup-nuget@v1
+
+            - name: Restore dependencies
+              run: nuget restore $SOLUTION
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                dotnet-version: 6.0.x
+
+            - name: Build
+              run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=$BUILD_VERSION --no-restore
+
+            - name: Publish to GitHub Packages
+              run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.ACTION_TOKEN }} --source https://nuget.pkg.github.com/fwRelik/index.json
+
+            - name: Publish to NuGet
+              run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
