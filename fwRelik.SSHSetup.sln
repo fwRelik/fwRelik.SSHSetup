@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33403.182
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fwRelik.SSHSetup", "fwRelik.SSHSetup.csproj", "{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fwRelik.SSHSetup", "fwRelik.SSHSetup.csproj", "{042A68DC-9BB3-4028-A943-A6F7C32BC980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Debug|Any CPU.Build.0 = Release|Any CPU
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042A68DC-9BB3-4028-A943-A6F7C32BC980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042A68DC-9BB3-4028-A943-A6F7C32BC980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042A68DC-9BB3-4028-A943-A6F7C32BC980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042A68DC-9BB3-4028-A943-A6F7C32BC980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B08F80B0-0725-418C-9228-EBA7D825322C}
+		SolutionGuid = {7FD4CC94-5DE5-498A-8129-E075BA49B865}
 	EndGlobalSection
 EndGlobal

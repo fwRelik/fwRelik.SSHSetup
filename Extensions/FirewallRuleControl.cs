@@ -18,32 +18,49 @@ namespace fwRelik.SSHSetup.Extensions
         private readonly int _firewallRuleLocalPort = 22;
 
         /// <summary>
+        /// Provides the state of the firewall rule, default is false.
+        /// <remarks>
+        /// Actual information will be provided 
+        /// if at least one of these methods is applied: 
+        /// <see cref="GetFirewallRule"/>,
+        /// <see cref="SetFirewallRule"/>,
+        /// <see cref="RemoveFirewallRule"/>.
+        /// </remarks>
+        /// </summary>
+        public bool RuleState { get; private set; } = false;
+
+        /// <summary>
         /// Removes the rule for the firewall.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         public void RemoveFirewallRule()
         {
-            var (FirewallRuleStatus, Description) = GetFirewallRule();
-
-            if (FirewallRuleStatus)
-                TerminalClient.Command(RemoveFirewallRuleCommand(), process =>
+            TerminalClient.Command(RemoveFirewallRuleCommand(), process =>
+            {
+                if (process.Error != null)
                 {
-                    if (process.Error != null) throw new ArgumentException(process.Error.Message);
-                });
+                    RuleState = true;
+                    throw new ArgumentException(process.Error.Message);
+                }
+                RuleState = false;
+            });
         }
+
         /// <summary>
         /// Sets the rule for the firewall.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         public void SetFirewallRule()
         {
-            var (FirewallRuleStatus, Description) = GetFirewallRule();
-
-            if (!FirewallRuleStatus)
-                TerminalClient.Command(SetFirewallRuleCommand(), process =>
+            TerminalClient.Command(SetFirewallRuleCommand(), process =>
+            {
+                if (process.Error != null)
                 {
-                    if (process.Error != null) throw new ArgumentException(process.Error.Message);
-                });
+                    RuleState = false;
+                    throw new ArgumentException(process.Error.Message);
+                }
+                RuleState = true;
+            });
         }
 
         /// <summary>
@@ -53,7 +70,7 @@ namespace fwRelik.SSHSetup.Extensions
         /// <exception cref="ArgumentException"></exception>
         public (bool FirewallRuleStatus, string Description) GetFirewallRule()
         {
-            var firewallRule = TerminalClient.Command(GetFirewallRuleCommand(), process =>
+            bool firewallRule = TerminalClient.Command(GetFirewallRuleCommand(), process =>
             {
                 if (process.Error != null) throw new ArgumentException(process.Error.Message);
                 return TerminalParser.CheckValue(
@@ -63,6 +80,7 @@ namespace fwRelik.SSHSetup.Extensions
                 );
             });
 
+            RuleState = firewallRule;
             string description = firewallRule
                 ? $"Firewall Rule '{_firewallRuleDisplayName}' has been exists."
                 : $"Firewall Rule '{_firewallRuleDisplayName}' does not exist.";

@@ -19,6 +19,11 @@ namespace fwRelik.SSHSetup.Extensions
             {PackagesName.OpenSSHClient, "OpenSSH.Client~~~~0.0.1.0"},
             {PackagesName.OpenSSHServer, "OpenSSH.Server~~~~0.0.1.0"}
         };
+        private readonly Dictionary<PackagesName, bool> _requiredPackagesInstallingStatus = new()
+        {
+            {PackagesName.OpenSSHClient, false},
+            {PackagesName.OpenSSHServer, false}
+        };
 
         /// <summary>
         /// Returns the condition of all packages.
@@ -27,8 +32,6 @@ namespace fwRelik.SSHSetup.Extensions
         /// <exception cref="ArgumentException"></exception>
         public Dictionary<PackagesName, bool> CheckPackage()
         {
-            Dictionary<PackagesName, bool> packageInstallingStatus = new();
-
             foreach (var packageName in _requiredPackagesName)
             {
                 var result = TerminalClient.Command(_getPackagesCommand, process =>
@@ -55,10 +58,10 @@ namespace fwRelik.SSHSetup.Extensions
                     return false;
                 });
 
-                packageInstallingStatus.Add(packageName.Key, result);
+                _requiredPackagesInstallingStatus[packageName.Key] = result;
             }
 
-            return packageInstallingStatus;
+            return _requiredPackagesInstallingStatus;
         }
 
         /// <summary>
@@ -92,25 +95,42 @@ namespace fwRelik.SSHSetup.Extensions
         public bool PackageManagment(PackagesName packageName, bool install = true)
         {
             var package = _requiredPackagesName.Single(item => item.Key == packageName);
-            return TerminalClient.Command(
+            bool installingResult = TerminalClient.Command(
                 PackageManagmentCommand(package.Value, install),
                 CheckInstallingPackageStatus
             );
+
+            _requiredPackagesInstallingStatus[packageName] = installingResult;
+            return installingResult;
         }
 
         /// <summary>
         /// Returns the logical value if all the necessary packages are installed.
         /// </summary>
         /// <returns>Will return true if all the necessary packages are installed.</returns>
-        internal bool CheckPackageForInitializaitonValue()
+        public bool CheckPackageForInitializaitonValue()
         {
             var packageDictionary = CheckPackage();
-            List<bool> list = new();
+            return packageDictionary.Values.ToList().TrueForAll(v => v);
+        }
 
-            foreach (var package in packageDictionary)
-                list.Add(package.Value);
-
-            return list.TrueForAll(value => value);
+        /// <summary>
+        /// Returns the state of the packages from the class instance.
+        /// </summary>
+        /// <remarks>
+        /// Does not in any way check for the presence of packages, 
+        /// it simply returns a status that is determined by actions 
+        /// such as installing and removing packages.
+        /// To initialize the correct state, 
+        /// use the <see cref="CheckPackageForInitializaitonValue"/> or <see cref="CheckPackage"/> method.
+        /// </remarks>
+        /// <returns>Returns a tuple with the general state and the dictionary itself with package names.</returns>
+        public (bool AllPackageInstalling, Dictionary<PackagesName, bool> PackagesDictionary) GetPackagesState()
+        {
+            return (
+                _requiredPackagesInstallingStatus.Values.ToList().TrueForAll(v => v),
+                _requiredPackagesInstallingStatus
+            );
         }
 
         /// <summary>
