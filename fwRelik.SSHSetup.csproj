@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>fwRelik.SSHSetup</Title>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Company>fwRelik</Company>
     <Description>Setting OpenSSH</Description>
     <PackageProjectUrl>https://github.com/fwRelik/fwRelik.SSHSetup</PackageProjectUrl>

@@ -35,31 +35,32 @@ namespace fwRelik.SSHSetup.Extensions
         /// <exception cref="ArgumentException"></exception>
         public void RemoveFirewallRule()
         {
-            var (FirewallRuleStatus, Description) = GetFirewallRule();
-            RuleState = FirewallRuleStatus;
-
-            if (FirewallRuleStatus)
-                TerminalClient.Command(RemoveFirewallRuleCommand(), process =>
+            TerminalClient.Command(RemoveFirewallRuleCommand(), process =>
+            {
+                if (process.Error != null)
                 {
-                    if (process.Error != null) throw new ArgumentException(process.Error.Message);
-                    RuleState = false;
-                });
+                    RuleState = true;
+                    throw new ArgumentException(process.Error.Message);
+                }
+                RuleState = false;
+            });
         }
+
         /// <summary>
         /// Sets the rule for the firewall.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         public void SetFirewallRule()
         {
-            var (FirewallRuleStatus, Description) = GetFirewallRule();
-            RuleState = FirewallRuleStatus;
-
-            if (!FirewallRuleStatus)
-                TerminalClient.Command(SetFirewallRuleCommand(), process =>
+            TerminalClient.Command(SetFirewallRuleCommand(), process =>
+            {
+                if (process.Error != null)
                 {
-                    if (process.Error != null) throw new ArgumentException(process.Error.Message);
-                    RuleState = true;
-                });
+                    RuleState = false;
+                    throw new ArgumentException(process.Error.Message);
+                }
+                RuleState = true;
+            });
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace fwRelik.SSHSetup.Extensions
         /// <exception cref="ArgumentException"></exception>
         public (bool FirewallRuleStatus, string Description) GetFirewallRule()
         {
-            var firewallRule = TerminalClient.Command(GetFirewallRuleCommand(), process =>
+            bool firewallRule = TerminalClient.Command(GetFirewallRuleCommand(), process =>
             {
                 if (process.Error != null) throw new ArgumentException(process.Error.Message);
                 return TerminalParser.CheckValue(
