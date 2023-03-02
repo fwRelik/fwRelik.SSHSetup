@@ -1,5 +1,4 @@
-﻿using fwRelik.SSHSetup.Enums;
-using fwRelik.SSHSetup.Extensions;
+﻿using fwRelik.SSHSetup.Extensions;
 
 namespace fwRelik.SSHSetup
 {

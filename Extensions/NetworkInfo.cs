@@ -43,10 +43,10 @@ namespace fwRelik.SSHSetup.Extensions
         }
 
         /// <summary>
-        /// Checks the state of the network.
+        /// Checks network connectivity.
         /// </summary>
         /// <returns>
-        /// Will return the logical value, true if there is a connection. Otherwise false.
+        /// Returns a boolean true if the connection is possible. Otherwise false.
         /// </returns>
         public bool GetNetworkConnectionStatus() => NetworkInterface.GetIsNetworkAvailable();
 

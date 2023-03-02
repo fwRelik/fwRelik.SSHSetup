@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fwRelik.SSHSetup", "fwRelik.SSHSetup.csproj", "{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleApp", "..\TestConsoleApp\TestConsoleApp\TestConsoleApp.csproj", "{B216F5BC-85AE-4F8D-B02C-A116E29ACAE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +15,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Debug|Any CPU.ActiveCfg = Release|Any CPU
 		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Debug|Any CPU.Build.0 = Release|Any CPU
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA3DC5E6-7D94-4535-B5EE-5C9AB54F045D}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B216F5BC-85AE-4F8D-B02C-A116E29ACAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B216F5BC-85AE-4F8D-B02C-A116E29ACAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B216F5BC-85AE-4F8D-B02C-A116E29ACAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B216F5BC-85AE-4F8D-B02C-A116E29ACAE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
