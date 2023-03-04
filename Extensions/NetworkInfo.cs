@@ -50,6 +50,7 @@ namespace fwRelik.SSHSetup.Extensions
         /// </returns>
         public bool GetNetworkConnectionStatus() => NetworkInterface.GetIsNetworkAvailable();
 
+
         /// <summary>
         /// Receives all connections to this device.
         /// </summary>
@@ -57,38 +58,31 @@ namespace fwRelik.SSHSetup.Extensions
         /// <exception cref="ArgumentException"></exception>
         public Dictionary<int, ConnectionEntity> GetConnections()
         {
-            const string command = "Get-NetTCPConnection -LocalPort 22 -State Established -AppliedSetting Internet | Select-Object -Property LocalAddress, LocalPort, RemoteAddress, RemotePort, State, AppliedSetting | Format-Table";
-            Dictionary<int, ConnectionEntity> connectionEntities = new();
-
-            TerminalClient.Command(command, process =>
+            try
             {
-                if (process.Error != null)
-                {
-                    ConnectionCount = 0;
-                    throw new ArgumentException(process.Error.Message);
-                }
+                int port = 22;
+                var connectionEntities = new Dictionary<int, ConnectionEntity>();
+                var properties = IPGlobalProperties.GetIPGlobalProperties();
+                var connections = properties.GetActiveTcpConnections()
+                    .Where(connection => connection.LocalEndPoint.Port == port).ToArray();
 
-                var rows = TerminalParser.ParseToNumarationRow(process.StdOut, 2);
-                for (int i = 0; i < rows.Length; i++)
+                for (int i = 0; i < connections.Length; i++)
                 {
-                    var hen = rows[i].Split(" ").Where(symbol => symbol != string.Empty).ToArray();
-                    var connectionEntity = new ConnectionEntity()
+                    var connectionEntity = new ConnectionEntity
                     {
-                        LocalAddress = hen[0],
-                        LocalPort = hen[1],
-                        RemoteAddress = hen[2],
-                        RemotePort = hen[3],
-                        State = hen[4],
-                        AppliedSetting = hen[5]
+                        LocalAddress = connections[i].LocalEndPoint,
+                        RemoteAddress = connections[i].RemoteEndPoint,
+                        State = connections[i].State
                     };
 
                     connectionEntities.Add(i, connectionEntity);
                 }
 
-                ConnectionCount = rows.Length;
-            });
+                ConnectionCount = connections.Length;
 
-            return connectionEntities;
+                return connectionEntities;
+            }
+            catch (Exception ex) { throw new ArgumentException(ex.Message); }
         }
 
         /// <summary>
