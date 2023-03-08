@@ -12,17 +12,17 @@ namespace fwRelik.SSHSetup.Structs
         /// <summary>
         /// The local address of this device.
         /// </summary>
-        public IPEndPoint LocalAddress; 
+        public IPEndPoint LocalAddress { get; set; }
 
         /// <summary>
         /// Remote device address.
         /// </summary>
-        public IPEndPoint RemoteAddress; 
+        public IPEndPoint RemoteAddress { get; set; }
 
         /// <summary>
         /// Connection state.
         /// </summary>
-        public TcpState State;
+        public TcpState State { get; set; }
 
         /// <summary>
         /// Returns a string with the fields LocalAddress, RemoteAddress and State.
