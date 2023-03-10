@@ -2,8 +2,6 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using fwRelik.SSHSetup.Structs;
-using fwRelik.Terminal;
-using fwRelik.Terminal.Extensions;
 
 namespace fwRelik.SSHSetup.Extensions
 {
